@@ -1,0 +1,26 @@
+server:
+  port: 10000
+
+spring:
+  application:
+    name: service-zuul
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    #访问路径可以显示IP地址
+    prefer-ip-address: true
+
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      serviceId: service-consumer-ribbon
+    api-b:
+      path: /api-b/**
+      serviceId: service-consumer-ribbon-hystrix
